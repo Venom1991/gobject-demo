@@ -88,7 +88,8 @@ shape_renderable_interface_init (RenderableInterface *iface)
   iface->draw = NULL; // needs to be implemented in derived classes
 }
 
-gdouble shape_compute_area (Shape *self)
+gdouble
+shape_compute_area (Shape *self)
 {
   g_return_val_if_fail (SHAPES_IS_SHAPE (self), 0.0);
 
@@ -99,7 +100,8 @@ gdouble shape_compute_area (Shape *self)
   return klass->compute_area (self);
 }
 
-gdouble shape_compute_perimeter (Shape *self)
+gdouble
+shape_compute_perimeter (Shape *self)
 {
   g_return_val_if_fail (SHAPES_IS_SHAPE (self), 0.0);
 
@@ -110,9 +112,10 @@ gdouble shape_compute_perimeter (Shape *self)
   return klass->compute_perimeter (self);
 }
 
-static void shape_paint (Renderable  *self,
-                         Color        color,
-                         GError     **error)
+static void
+shape_paint (Renderable  *self,
+             Color        color,
+             GError     **error)
 {
   g_return_if_fail (SHAPES_IS_SHAPE (self));
   g_return_if_fail (error == NULL || *error == NULL);

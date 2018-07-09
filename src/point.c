@@ -88,10 +88,11 @@ point_get_property (GObject     *object,
     }
 }
 
-static void point_set_property (GObject      *object,
-                                guint         property_id,
-                                const GValue *value,
-                                GParamSpec   *pspec)
+static void
+point_set_property (GObject      *object,
+                    guint         property_id,
+                    const GValue *value,
+                    GParamSpec   *pspec)
 {
   PointPrivate *priv = point_get_instance_private (SHAPES_POINT (object));
 

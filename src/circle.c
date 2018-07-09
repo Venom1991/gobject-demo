@@ -157,8 +157,9 @@ circle_draw (Renderable *self)
   g_printf (ANSI_COLOR_RESET "\n");
 }
 
-static void circle_resize (Resizeable *self,
-                           gint        percent)
+static void
+circle_resize (Resizeable *self,
+               gint        percent)
 {
   g_return_if_fail (SHAPES_IS_CIRCLE (self));
   g_return_if_fail (percent != 0);
@@ -239,7 +240,7 @@ circle_get_property (GObject    *object,
 }
 
 static void
-circle_set_property (GObject     *object,
+circle_set_property (GObject      *object,
                      guint         property_id,
                      const GValue *value,
                      GParamSpec   *pspec)

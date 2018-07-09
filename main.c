@@ -8,13 +8,12 @@
 #include "movable.h"
 #include "circle.h"
 #include "square.h"
-#include "point.h"
 
 gint
 main (void)
 {
   g_autoptr (Shape) circle = circle_new (PROP_SHAPE_CAPTION, "Circle",
-                                         PROP_CIRCLE_RADIUS, 5.4321); /* upcasting Circle to Shape */
+                                         PROP_CIRCLE_RADIUS, 8.0); /* upcasting Circle to Shape */
   g_autoptr (Shape) square = square_new (PROP_SHAPE_CAPTION, "Square",
                                          PROP_SQUARE_SIDE, 12.345); /* upcasting Square to Shape */
 
@@ -63,7 +62,7 @@ main (void)
 
           g_printf ("Resizing the shape...\n");
 
-          resizeable_resize (resizeable, 50);
+          resizeable_resize (resizeable, -50);
           renderable_draw (renderable);
         }
 
@@ -78,27 +77,31 @@ main (void)
           g_printf ("Moving the shape...\n");
 
           for (guint j = 0; j < down_direction_steps; ++j)
-            movable_move (movable,
-                          DIRECTION_DOWN,
-                          &error);
-
-          if (error != NULL)
             {
-              g_fprintf (stderr, "Unable to move the shape down - reason: \"%s\"\n", error->message);
+              movable_move (movable,
+                            DIRECTION_DOWN,
+                            &error);
 
-              return EXIT_FAILURE;
+              if (error != NULL)
+                {
+                  g_fprintf (stderr, "Unable to move the shape down - reason: \"%s\"\n", error->message);
+
+                  return EXIT_FAILURE;
+                }
             }
 
           for (guint j = 0; j < right_direction_steps; ++j)
-            movable_move (movable,
-                          DIRECTION_RIGHT,
-                          &error);
-
-          if (error != NULL)
             {
-              g_fprintf (stderr, "Unable to move the shape right - reason: \"%s\"\n", error->message);
+              movable_move (movable,
+                            DIRECTION_RIGHT,
+                            &error);
 
-              return EXIT_FAILURE;
+              if (error != NULL)
+                {
+                  g_fprintf (stderr, "Unable to move the shape right - reason: \"%s\"\n", error->message);
+
+                  return EXIT_FAILURE;
+                }
             }
 
           renderable_draw (renderable);
