@@ -4,7 +4,7 @@
 
 struct _MovablePoint
 {
-    Point parent_instance;
+  Point parent_instance;
 };
 
 G_DEFINE_QUARK (shapes-movable-point-error-quark, shapes_movable_point_error)

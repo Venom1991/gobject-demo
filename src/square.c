@@ -9,20 +9,20 @@
 
 struct _Square
 {
-    Shape parent_instance;
+  Shape parent_instance;
 };
 
 typedef struct
 {
-    gdouble       side;
-    MovablePoint *top_left;
-    MovablePoint *bottom_right;
+  gdouble       side;
+  MovablePoint *top_left;
+  MovablePoint *bottom_right;
 } SquarePrivate;
 
 enum
 {
-    PROP_SIDE = 1,
-    N_PROPERTIES
+  PROP_SIDE = 1,
+  N_PROPERTIES
 };
 
 #define SIDES_COUNT 4

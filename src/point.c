@@ -2,15 +2,15 @@
 
 typedef struct
 {
-    guint x_coordinate;
-    guint y_coordinate;
+  guint x_coordinate;
+  guint y_coordinate;
 } PointPrivate;
 
 enum
 {
-    PROP_X_COORDINATE = 1,
-    PROP_Y_COORDINATE,
-    N_PROPERTIES
+  PROP_X_COORDINATE = 1,
+  PROP_Y_COORDINATE,
+  N_PROPERTIES
 };
 
 static GParamSpec *obj_properties[N_PROPERTIES] = { NULL };

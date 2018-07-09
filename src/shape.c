@@ -4,16 +4,16 @@
 
 typedef struct
 {
-    Color  color;
-    gchar *caption;
+  Color  color;
+  gchar *caption;
 } ShapePrivate;
 
 enum
 {
-    PROP_CAPTION = 1,
-    PROP_COLOR,
-    PROP_COLOR_ANSI_ESCAPE_CODE,
-    N_PROPERTIES
+  PROP_CAPTION = 1,
+  PROP_COLOR,
+  PROP_COLOR_ANSI_ESCAPE_CODE,
+  N_PROPERTIES
 };
 
 static GParamSpec *obj_properties[N_PROPERTIES] = { NULL };

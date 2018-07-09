@@ -12,7 +12,7 @@ G_DECLARE_DERIVABLE_TYPE (Point, point, SHAPES, POINT, GObject)
 
 struct _PointClass
 {
-    GObjectClass parent_class;
+  GObjectClass parent_class;
 };
 
 #define PROP_POINT_X_COORDINATE "x-coordinate"

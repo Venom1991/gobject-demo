@@ -9,21 +9,21 @@
 
 struct _Circle
 {
-    Shape parent_instance;
+  Shape parent_instance;
 };
 
 typedef struct
 {
-    gdouble  radius;
-    gdouble  diameter;
-    Point   *center;
+  gdouble  radius;
+  gdouble  diameter;
+  Point   *center;
 } CirclePrivate;
 
 enum
 {
-    PROP_RADIUS = 1,
-    PROP_DIAMETER,
-    N_PROPERTIES
+  PROP_RADIUS = 1,
+  PROP_DIAMETER,
+  N_PROPERTIES
 };
 
 static GParamSpec *obj_properties[N_PROPERTIES] = { NULL };

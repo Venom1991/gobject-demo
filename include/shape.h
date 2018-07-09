@@ -11,12 +11,12 @@ G_DECLARE_DERIVABLE_TYPE (Shape, shape, SHAPES, SHAPE, GObject)
 
 struct _ShapeClass
 {
-    GObjectClass parent_class;
+  GObjectClass parent_class;
 
-    gdouble (*compute_area)      (Shape *self);
-    gdouble (*compute_perimeter) (Shape *self);
+  gdouble (*compute_area)      (Shape *self);
+  gdouble (*compute_perimeter) (Shape *self);
 
-    gpointer     padding[8];
+  gpointer     padding[8];
 };
 
 gdouble shape_compute_area      (Shape *self);

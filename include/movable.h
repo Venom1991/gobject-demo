@@ -7,10 +7,10 @@ G_BEGIN_DECLS
 
 typedef enum
 {
-    DIRECTION_UP,
-    DIRECTION_DOWN,
-    DIRECTION_LEFT,
-    DIRECTION_RIGHT,
+  DIRECTION_UP,
+  DIRECTION_DOWN,
+  DIRECTION_LEFT,
+  DIRECTION_RIGHT,
 } Direction;
 
 #define SHAPES_TYPE_MOVABLE (movable_get_type ())
@@ -19,11 +19,11 @@ G_DECLARE_INTERFACE (Movable, movable, SHAPES, MOVABLE, GObject)
 
 struct _MovableInterface
 {
-    GTypeInterface parent_iface;
+  GTypeInterface parent_iface;
 
-    void (*move) (Movable    *self,
-                  Direction   direction,
-                  GError    **error);
+  void (*move) (Movable    *self,
+                Direction   direction,
+                GError    **error);
 };
 
 void movable_move (Movable    *self,

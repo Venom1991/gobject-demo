@@ -11,10 +11,10 @@ G_DECLARE_INTERFACE (Resizeable, resizeable, SHAPES, RESIZEABLE, GObject)
 
 struct _ResizeableInterface
 {
-    GTypeInterface parent_iface;
+  GTypeInterface parent_iface;
 
-    void (*resize) (Resizeable *self,
-                    gint        percent);
+  void (*resize) (Resizeable *self,
+                  gint        percent);
 };
 
 void resizeable_resize (Resizeable *self,
