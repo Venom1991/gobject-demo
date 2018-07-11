@@ -34,4 +34,4 @@ void         print_colored_output (const gchar *output,
 
 void         reset_color          (const gchar *reset_color_code);
 
-#endif //GOBJECT_DEMO_HELPERS_H
+#endif /* GOBJECT_DEMO_HELPERS_H */
