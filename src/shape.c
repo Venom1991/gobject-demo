@@ -215,6 +215,9 @@ shape_set_property (GObject      *object,
   switch (property_id)
     {
     case PROP_CAPTION:
+      if (priv->caption != NULL)
+        g_free (priv->caption);
+
       priv->caption = g_value_dup_string (value);
       break;
 
