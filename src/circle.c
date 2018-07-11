@@ -151,6 +151,7 @@ circle_draw (Renderable *self)
       g_printf ("\n");
     }
 
+  g_printf ("\n");
   reset_color (reset_color_code);
 }
 

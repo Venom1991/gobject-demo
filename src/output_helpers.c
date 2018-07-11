@@ -7,7 +7,7 @@
 #include <windows.h>
 
 WORD
-get_parsed_attributes (const gchar *color_code)
+ExtractAttributesFromColorCode (const gchar *color_code)
 {
   guint64 parsed_code = 0;
   GError *error = NULL;
@@ -51,7 +51,7 @@ print_colored_output (const gchar *text,
                       const gchar *color_code)
 {
   HANDLE hConsole = GetStdHandle (STD_OUTPUT_HANDLE);
-  WORD wAttributes = get_parsed_attributes (color_code);
+  WORD wAttributes = ExtractAttributesFromColorCode (color_code);
 
   SetConsoleTextAttribute (hConsole, wAttributes);
 
@@ -62,11 +62,10 @@ void
 reset_color (const gchar *reset_color_code)
 {
   HANDLE hConsole = GetStdHandle (STD_OUTPUT_HANDLE);
-  WORD wAttributes = get_parsed_attributes (reset_color_code);
+  WORD wAttributes = ExtractAttributesFromColorCode (reset_color_code);
 
   SetConsoleTextAttribute (hConsole, wAttributes);
 
-  g_printf ("\n");
   g_free ((gpointer) reset_color_code);
 }
 
@@ -94,9 +93,7 @@ print_colored_output (const gchar *text,
 void
 reset_color (const gchar *reset_color_code)
 {
-  g_autofree gchar *output = g_strdup_printf ("%s\n", reset_color_code);
-
-  g_printf (output);
+  g_printf (reset_color_code);
 }
 
 #endif

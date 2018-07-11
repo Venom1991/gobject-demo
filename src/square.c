@@ -165,6 +165,7 @@ square_draw (Renderable *self)
       g_printf ("\n");
     }
 
+  g_printf ("\n");
   reset_color (reset_color_code);
 }
 
@@ -174,6 +175,7 @@ square_move (Movable    *self,
              GError    **error)
 {
   g_return_if_fail (SHAPES_IS_SQUARE (self));
+  g_return_if_fail (error == NULL || *error == NULL);
 
   SquarePrivate *priv = square_get_instance_private (SHAPES_SQUARE (self));
 
