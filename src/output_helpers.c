@@ -1,12 +1,10 @@
 #include "output_helpers.h"
 
-#ifdef  G_OS_WIN32
-#include <windows.h>
-#endif
-
 #include <glib/gprintf.h>
 
 #ifdef G_OS_WIN32
+
+#include <windows.h>
 
 WORD
 get_parsed_attributes (const gchar *color_code)
