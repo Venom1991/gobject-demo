@@ -36,8 +36,8 @@ void renderable_paint (Renderable  *self,
 
 void renderable_draw  (Renderable  *self);
 
-#define PROP_RENDERABLE_COLOR                  "color"
-#define PROP_RENDERABLE_COLOR_ANSI_ESCAPE_CODE "color-ansi-escape-code"
+#define PROP_RENDERABLE_COLOR             "color"
+#define PROP_RENDERABLE_COLOR_OUTPUT_CODE "color-output-code"
 
 G_END_DECLS
 

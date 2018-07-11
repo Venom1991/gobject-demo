@@ -1,6 +1,7 @@
 #include "shape.h"
 #include "renderable.h"
 #include "errors.h"
+#include "output_helpers.h"
 
 typedef struct
 {
@@ -12,7 +13,7 @@ enum
 {
   PROP_CAPTION = 1,
   PROP_COLOR,
-  PROP_COLOR_ANSI_ESCAPE_CODE,
+  PROP_COLOR_OUTPUT_CODE,
   N_PROPERTIES
 };
 
@@ -27,7 +28,7 @@ static void         shape_paint                     (Renderable           *self,
                                                      Color                 color,
                                                      GError              **error);
 
-static const gchar *shape_color_to_ansi_escape_code (Color                 color);
+static const gchar *shape_color_to_output_code (Color color);
 
 static void         shape_get_property              (GObject              *object,
                                                      guint                 property_id,
@@ -71,8 +72,8 @@ shape_class_init (ShapeClass *klass)
                                     PROP_COLOR,
                                     PROP_RENDERABLE_COLOR);
   g_object_class_override_property (object_class,
-                                    PROP_COLOR_ANSI_ESCAPE_CODE,
-                                    PROP_RENDERABLE_COLOR_ANSI_ESCAPE_CODE);
+                                    PROP_COLOR_OUTPUT_CODE,
+                                    PROP_RENDERABLE_COLOR_OUTPUT_CODE);
 }
 
 static void
@@ -140,36 +141,35 @@ shape_paint (Renderable  *self,
 }
 
 static const gchar *
-shape_color_to_ansi_escape_code (Color color)
+shape_color_to_output_code (Color color)
 {
-  gchar *ansi_escape_code = NULL;
+  gchar *output_code = NULL;
 
   switch (color)
     {
     case COLOR_UNDEFINED:
-      ansi_escape_code = ANSI_COLOR_RESET;
-      break;
+      g_return_val_if_reached (NULL);
     case COLOR_RED:
-      ansi_escape_code = ANSI_COLOR_RED;
+      output_code = COLOR_RED_CODE;
       break;
     case COLOR_GREEN:
-      ansi_escape_code = ANSI_COLOR_GREEN;
+      output_code = COLOR_GREEN_CODE;
       break;
     case COLOR_YELLOW:
-      ansi_escape_code = ANSI_COLOR_YELLOW;
+      output_code = COLOR_YELLOW_CODE;
       break;
     case COLOR_BLUE:
-      ansi_escape_code = ANSI_COLOR_BLUE;
+      output_code = COLOR_BLUE_CODE;
       break;
     case COLOR_MAGENTA:
-      ansi_escape_code = ANSI_COLOR_MAGENTA;
+      output_code = COLOR_MAGENTA_CODE;
       break;
     case COLOR_CYAN:
-      ansi_escape_code = ANSI_COLOR_CYAN;
+      output_code = COLOR_CYAN_CODE;
       break;
     }
 
-  return ansi_escape_code;
+  return output_code;
 }
 
 static void
@@ -190,11 +190,11 @@ shape_get_property (GObject    *object,
       g_value_set_uint (value, priv->color);
       break;
 
-    case PROP_COLOR_ANSI_ESCAPE_CODE:
+    case PROP_COLOR_OUTPUT_CODE:
       {
-        const gchar *ansi_escape_code = shape_color_to_ansi_escape_code (priv->color);
+        const gchar *color_output_code = shape_color_to_output_code (priv->color);
 
-        g_value_set_string (value, ansi_escape_code);
+        g_value_set_string (value, color_output_code);
       }
       break;
 

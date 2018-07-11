@@ -2,7 +2,9 @@
 #include "point.h"
 #include "renderable.h"
 #include "resizeable.h"
+#include "output_helpers.h"
 
+#include <stdlib.h>
 #include <math.h>
 
 #include <glib/gprintf.h>
@@ -125,13 +127,14 @@ circle_draw (Renderable *self)
   gdouble radius = priv->radius;
   gdouble diameter = priv->diameter;
   gint diameter_as_gint = (gint) ceil (diameter);
-  g_autofree const gchar *ansi_escape_code = NULL;
+  const gchar *reset_color_code = get_reset_color_code ();
+  g_autofree const gchar *color_escape_code = NULL;
 
   g_object_get (self,
-                PROP_RENDERABLE_COLOR_ANSI_ESCAPE_CODE, &ansi_escape_code,
+                PROP_RENDERABLE_COLOR_OUTPUT_CODE, &color_escape_code,
                 NULL);
 
-  g_assert (ansi_escape_code != NULL);
+  g_assert (color_escape_code != NULL);
 
   for (gint i = 0; i <= diameter_as_gint; ++i)
     {
@@ -140,21 +143,15 @@ circle_draw (Renderable *self)
           gdouble distance = sqrt (pow (i - radius, 2) + pow (j - radius, 2));
 
           if (distance > (radius - 0.5) && distance < (radius + 0.5))
-            {
-              g_autofree gchar *output = g_strdup_printf ("%s\t*", ansi_escape_code);
-
-              g_printf (output);
-            }
+              print_colored_output (" *", color_escape_code);
           else
-            {
-              g_printf ("\t");
-            }
+              g_printf ("  ");
         }
 
       g_printf ("\n");
     }
 
-  g_printf (ANSI_COLOR_RESET "\n");
+  reset_color (reset_color_code);
 }
 
 static void

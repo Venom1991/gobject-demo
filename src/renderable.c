@@ -15,9 +15,11 @@ renderable_default_init (RenderableInterface *iface)
                                                           G_PARAM_READABLE));
 
   g_object_interface_install_property (iface,
-                                       g_param_spec_string (PROP_RENDERABLE_COLOR_ANSI_ESCAPE_CODE,
-                                                            "Color ANSI escape code",
-                                                            "A renderable object's current color as an ANSI escape code.",
+                                       g_param_spec_string (PROP_RENDERABLE_COLOR_OUTPUT_CODE,
+                                                            "Color output code",
+                                                            "A renderable object's current color as a platform-specific"
+                                                               "code - ANSI escape sequence on Unices or a stringified"
+                                                               "WORD on Windows.",
                                                             NULL,
                                                             G_PARAM_READABLE));
 }

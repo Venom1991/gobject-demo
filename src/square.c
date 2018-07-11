@@ -2,6 +2,7 @@
 #include "movable_point.h"
 #include "renderable.h"
 #include "movable.h"
+#include "output_helpers.h"
 
 #include <math.h>
 
@@ -116,13 +117,14 @@ square_draw (Renderable *self)
   g_return_if_fail (SHAPES_IS_SQUARE (self));
 
   SquarePrivate *priv = square_get_instance_private (SHAPES_SQUARE (self));
-  g_autofree const gchar *ansi_escape_code = NULL;
+  const gchar *reset_color_code = get_reset_color_code ();
+  g_autofree const gchar *color_escape_code = NULL;
 
   g_object_get (self,
-                PROP_RENDERABLE_COLOR_ANSI_ESCAPE_CODE, &ansi_escape_code,
+                PROP_RENDERABLE_COLOR_OUTPUT_CODE, &color_escape_code,
                 NULL);
 
-  g_assert (ansi_escape_code != NULL);
+  g_assert (color_escape_code != NULL);
 
   Point *top_left = SHAPES_POINT (priv->top_left);
   guint top_left_x = 0;
@@ -149,27 +151,21 @@ square_draw (Renderable *self)
   for (gint i = top_left_x; i < bottom_right_x; ++i)
     {
       for (gint j = 0; j < bottom_right_x - x_difference; ++j)
-        g_printf ("\t");
+        g_printf (" ");
 
       for (gint j = top_left_y; j < bottom_right_y; ++j)
         {
           if ((i == top_left_x || i == bottom_right_x - 1) ||
               (j == top_left_y || j == bottom_right_y - 1))
-            {
-              g_autofree gchar *output = g_strdup_printf ("%s\t*", ansi_escape_code);
-
-              g_printf (output);
-            }
+            print_colored_output (" *", color_escape_code);
           else
-            {
-              g_printf ("\t");
-            }
+            g_printf ("  ");
         }
 
       g_printf ("\n");
     }
 
-  g_printf (ANSI_COLOR_RESET "\n");
+  reset_color (reset_color_code);
 }
 
 static void

@@ -4,24 +4,26 @@ project(gobject_demo VERSION 1.0 LANGUAGES C)
 set(CMAKE_C_STANDARD 11)
 
 add_executable(gobject_demo
-               include/circle.h
-               include/errors.h
-               include/movable.h
-               include/movable_point.h
-               include/point.h
-               include/renderable.h
-               include/resizeable.h
-               include/shape.h
-               include/square.h
-               main.c
-               src/circle.c
-               src/movable.c
-               src/movable_point.c
-               src/point.c
-               src/renderable.c
-               src/resizeable.c
-               src/shape.c
-               src/square.c)
+    include/circle.h
+    include/errors.h
+    include/movable.h
+    include/movable_point.h
+    include/output_helpers.h
+    include/point.h
+    include/renderable.h
+    include/resizeable.h
+    include/shape.h
+    include/square.h
+    main.c
+    src/circle.c
+    src/movable.c
+    src/movable_point.c
+    src/output_helpers.c
+    src/point.c
+    src/renderable.c
+    src/resizeable.c
+    src/shape.c
+    src/square.c)
 
 target_include_directories(${PROJECT_NAME} PUBLIC include)
 

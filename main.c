@@ -18,7 +18,7 @@ main (void)
                                          PROP_SQUARE_SIDE, 12.345); /* upcasting Square to Shape */
 
   gpointer shapes[] = { circle, square };
-  Color colors[] = { COLOR_BLUE, COLOR_RED };
+  Color colors[] = { COLOR_GREEN, COLOR_RED };
 
   for (gint i = 0; i < G_N_ELEMENTS (shapes); ++i)
     {
@@ -33,8 +33,8 @@ main (void)
                     NULL);
 
       g_printf ("SHAPE: %s\n", caption);
-      g_printf ("\tAREA: %f\n", area);
-      g_printf ("\tPERIMETER: %f\n", perimeter);
+      g_printf ("\t- AREA: %f\n", area);
+      g_printf ("\t- PERIMETER: %f\n", perimeter);
       g_printf ("\n");
 
       // both Circle and Square implement Renderable
