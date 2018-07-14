@@ -1,13 +1,13 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-#include <glib/gprintf.h>
-
 #include "renderable.h"
 #include "resizeable.h"
 #include "movable.h"
 #include "circle.h"
 #include "square.h"
+
+#include <glib/gprintf.h>
+
+#include <stdio.h>
+#include <stdlib.h>
 
 gint
 main (void)
