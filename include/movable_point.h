@@ -1,9 +1,9 @@
 #ifndef GOBJECT_DEMO_MOVABLE_POINT_H
 #define GOBJECT_DEMO_MOVABLE_POINT_H
 
-#include <glib-object.h>
-
 #include "point.h"
+
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 

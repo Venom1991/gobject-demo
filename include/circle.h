@@ -1,9 +1,9 @@
 #ifndef GOBJECT_DEMO_CIRCLE_H
 #define GOBJECT_DEMO_CIRCLE_H
 
-#include <glib-object.h>
-
 #include "shape.h"
+
+#include <glib-object.h>
 
 G_BEGIN_DECLS
 

@@ -4,10 +4,10 @@
 #include "resizeable.h"
 #include "output_helpers.h"
 
-#include <stdlib.h>
-#include <math.h>
-
 #include <glib/gprintf.h>
+
+#include <math.h>
+#include <stdlib.h>
 
 struct _Circle
 {

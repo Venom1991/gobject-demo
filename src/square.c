@@ -4,9 +4,9 @@
 #include "movable.h"
 #include "output_helpers.h"
 
-#include <math.h>
-
 #include <glib/gprintf.h>
+
+#include <math.h>
 
 struct _Square
 {
