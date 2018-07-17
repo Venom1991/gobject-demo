@@ -30,11 +30,7 @@ enum
 
 static GParamSpec *obj_properties[N_PROPERTIES] = { NULL };
 
-static void    circle_renderable_interface_init (RenderableInterface *iface);
-
 static void    circle_resizeable_interface_init (ResizeableInterface *iface);
-
-static void    circle_draw                      (Renderable          *self);
 
 static void    circle_resize                    (Resizeable          *self,
                                                  gint                 percent);
@@ -42,6 +38,8 @@ static void    circle_resize                    (Resizeable          *self,
 static gdouble circle_compute_area              (Shape               *self);
 
 static gdouble circle_compute_perimeter         (Shape               *self);
+
+static void    circle_draw                      (Shape               *self);
 
 static void    circle_constructed               (GObject             *object);
 
@@ -59,8 +57,6 @@ static void    circle_dispose                   (GObject             *object);
 
 G_DEFINE_TYPE_WITH_CODE (Circle, circle, SHAPES_TYPE_SHAPE,
                          G_ADD_PRIVATE (Circle)
-                         G_IMPLEMENT_INTERFACE (SHAPES_TYPE_RENDERABLE,
-                                                circle_renderable_interface_init)
                          G_IMPLEMENT_INTERFACE (SHAPES_TYPE_RESIZEABLE,
                                                 circle_resizeable_interface_init))
 
@@ -72,6 +68,7 @@ circle_class_init (CircleClass *klass)
 
   shape_class->compute_area = circle_compute_area;
   shape_class->compute_perimeter = circle_compute_perimeter;
+  shape_class->draw = circle_draw;
 
   object_class->constructed = circle_constructed;
   object_class->get_property = circle_get_property;
@@ -107,52 +104,9 @@ circle_init (Circle *self)
   /* NOP */
 }
 
-static void
-circle_renderable_interface_init (RenderableInterface *iface)
-{
-  iface->draw = circle_draw;
-}
-
 static void circle_resizeable_interface_init (ResizeableInterface *iface)
 {
   iface->resize = circle_resize;
-}
-
-static void
-circle_draw (Renderable *self)
-{
-  g_return_if_fail (SHAPES_IS_CIRCLE (self));
-
-  CirclePrivate *priv = circle_get_instance_private (SHAPES_CIRCLE (self));
-  gdouble radius = priv->radius;
-  gdouble diameter = priv->diameter;
-  gint diameter_as_gint = (gint) ceil (diameter);
-  const gchar *reset_color_code = get_reset_color_code ();
-  g_autofree const gchar *color_escape_code = NULL;
-
-  g_object_get (self,
-                PROP_RENDERABLE_COLOR_OUTPUT_CODE, &color_escape_code,
-                NULL);
-
-  g_assert (color_escape_code != NULL);
-
-  for (gint i = 0; i <= diameter_as_gint; ++i)
-    {
-      for (gint j = 0; j <= diameter_as_gint; ++j)
-        {
-          gdouble distance = sqrt (pow (i - radius, 2) + pow (j - radius, 2));
-
-          if (distance > (radius - 0.5) && distance < (radius + 0.5))
-              print_colored_output (" *", color_escape_code);
-          else
-              g_printf ("  ");
-        }
-
-      g_printf ("\n");
-    }
-
-  g_printf ("\n");
-  reset_color (reset_color_code);
 }
 
 static void
@@ -195,6 +149,43 @@ circle_compute_perimeter (Shape *self)
   gdouble diameter = priv->diameter;
 
   return diameter * G_PI;
+}
+
+static void
+circle_draw (Shape *self)
+{
+  g_return_if_fail (SHAPES_IS_CIRCLE (self));
+
+  CirclePrivate *priv = circle_get_instance_private (SHAPES_CIRCLE (self));
+  gdouble radius = priv->radius;
+  gdouble diameter = priv->diameter;
+  gint diameter_as_gint = (gint) ceil (diameter);
+  const gchar *reset_color_code = get_reset_color_code ();
+  g_autofree const gchar *color_escape_code = NULL;
+
+  g_object_get (self,
+                PROP_RENDERABLE_COLOR_OUTPUT_CODE, &color_escape_code,
+                NULL);
+
+  g_assert (color_escape_code != NULL);
+
+  for (gint i = 0; i <= diameter_as_gint; ++i)
+    {
+      for (gint j = 0; j <= diameter_as_gint; ++j)
+        {
+          gdouble distance = sqrt (pow (i - radius, 2) + pow (j - radius, 2));
+
+          if (distance > (radius - 0.5) && distance < (radius + 0.5))
+            print_colored_output (" *", color_escape_code);
+          else
+            g_printf ("  ");
+        }
+
+      g_printf ("\n");
+    }
+
+  g_printf ("\n");
+  reset_color (reset_color_code);
 }
 
 static void

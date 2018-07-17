@@ -28,7 +28,7 @@ static void         shape_paint                     (Renderable           *self,
                                                      Color                 color,
                                                      GError              **error);
 
-static const gchar *shape_color_to_output_code (Color color);
+static const gchar *shape_color_to_output_code      (Color color);
 
 static void         shape_get_property              (GObject              *object,
                                                      guint                 property_id,
@@ -86,7 +86,7 @@ static void
 shape_renderable_interface_init (RenderableInterface *iface)
 {
   iface->paint = shape_paint;
-  iface->draw = NULL; // needs to be implemented in derived classes
+  iface->draw = (void (*) (Renderable *self)) shape_draw; /* "draw" interface method implemented abstractly */
 }
 
 gdouble
@@ -113,6 +113,18 @@ shape_compute_perimeter (Shape *self)
   return klass->compute_perimeter (self);
 }
 
+void
+shape_draw (Shape *self)
+{
+  g_return_if_fail (SHAPES_IS_SHAPE (self));
+
+  ShapeClass *klass = SHAPES_SHAPE_GET_CLASS (self);
+
+  g_return_if_fail (klass->draw != NULL);
+
+  klass->draw (self);
+}
+
 static void
 shape_paint (Renderable  *self,
              Color        color,
@@ -133,6 +145,8 @@ shape_paint (Renderable  *self,
                    SHAPES_SHAPE_ERROR,
                    error_code,
                    error_message);
+
+      return;
     }
 
   ShapePrivate *priv = shape_get_instance_private (SHAPES_SHAPE (self));

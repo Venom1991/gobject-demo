@@ -15,12 +15,14 @@ struct _ShapeClass
 
   gdouble (*compute_area)      (Shape *self);
   gdouble (*compute_perimeter) (Shape *self);
+  void    (*draw)              (Shape *self);
 
   gpointer     padding[8];
 };
 
 gdouble shape_compute_area      (Shape *self);
 gdouble shape_compute_perimeter (Shape *self);
+void    shape_draw              (Shape *self);
 
 #define PROP_SHAPE_CAPTION "caption"
 

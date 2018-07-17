@@ -30,11 +30,7 @@ enum
 
 static GParamSpec *obj_properties[N_PROPERTIES] = { NULL };
 
-static void    square_renderable_interface_init (RenderableInterface  *iface);
-
 static void    square_movable_interface_init    (MovableInterface     *iface);
-
-static void    square_draw                      (Renderable           *self);
 
 static void    square_move                      (Movable              *self,
                                                  Direction             direction,
@@ -43,6 +39,8 @@ static void    square_move                      (Movable              *self,
 static gdouble square_compute_area              (Shape                *self);
 
 static gdouble square_compute_perimeter         (Shape                *self);
+
+static void    square_draw                      (Shape                *self);
 
 static void    square_constructed               (GObject              *object);
 
@@ -60,8 +58,6 @@ static void    square_dispose                   (GObject              *object);
 
 G_DEFINE_TYPE_WITH_CODE (Square, square, SHAPES_TYPE_SHAPE,
                          G_ADD_PRIVATE (Square)
-                         G_IMPLEMENT_INTERFACE (SHAPES_TYPE_RENDERABLE,
-                                                square_renderable_interface_init)
                          G_IMPLEMENT_INTERFACE (SHAPES_TYPE_MOVABLE,
                                                 square_movable_interface_init))
 
@@ -73,6 +69,7 @@ square_class_init (SquareClass *klass)
 
   shape_class->compute_area = square_compute_area;
   shape_class->compute_perimeter = square_compute_perimeter;
+  shape_class->draw = square_draw;
 
   object_class->constructed = square_constructed;
   object_class->get_property = square_get_property;
@@ -100,73 +97,9 @@ square_init (Square *self)
 }
 
 static void
-square_renderable_interface_init (RenderableInterface *iface)
-{
-  iface->draw = square_draw;
-}
-
-static void
 square_movable_interface_init (MovableInterface *iface)
 {
   iface->move = square_move;
-}
-
-static void
-square_draw (Renderable *self)
-{
-  g_return_if_fail (SHAPES_IS_SQUARE (self));
-
-  SquarePrivate *priv = square_get_instance_private (SHAPES_SQUARE (self));
-  const gchar *reset_color_code = get_reset_color_code ();
-  g_autofree const gchar *color_escape_code = NULL;
-
-  g_object_get (self,
-                PROP_RENDERABLE_COLOR_OUTPUT_CODE, &color_escape_code,
-                NULL);
-
-  g_assert (color_escape_code != NULL);
-
-  Point *top_left = SHAPES_POINT (priv->top_left);
-  guint top_left_x = 0;
-  guint top_left_y = 0;
-  Point *bottom_right = SHAPES_POINT (priv->bottom_right);
-  guint bottom_right_x = 0;
-  guint bottom_right_y = 0;
-
-  g_object_get (top_left,
-                PROP_POINT_X_COORDINATE, &top_left_x,
-                PROP_POINT_Y_COORDINATE, &top_left_y,
-                NULL);
-  g_object_get (bottom_right,
-                PROP_POINT_X_COORDINATE, &bottom_right_x,
-                PROP_POINT_Y_COORDINATE, &bottom_right_y,
-                NULL);
-
-  guint x_difference = bottom_right_x - top_left_x;
-  guint y_difference = bottom_right_y - top_left_y;
-
-  for (gint i = 0; i < bottom_right_y - y_difference; ++i)
-    g_printf ("\n");
-
-  for (gint i = top_left_x; i < bottom_right_x; ++i)
-    {
-      for (gint j = 0; j < bottom_right_x - x_difference; ++j)
-        g_printf (" ");
-
-      for (gint j = top_left_y; j < bottom_right_y; ++j)
-        {
-          if ((i == top_left_x || i == bottom_right_x - 1) ||
-              (j == top_left_y || j == bottom_right_y - 1))
-            print_colored_output (" *", color_escape_code);
-          else
-            g_printf ("  ");
-        }
-
-      g_printf ("\n");
-    }
-
-  g_printf ("\n");
-  reset_color (reset_color_code);
 }
 
 static void
@@ -226,6 +159,64 @@ square_compute_perimeter (Shape *self)
   gdouble side = priv->side;
 
   return side * SIDES_COUNT;
+}
+
+static void
+square_draw (Shape *self)
+{
+  g_return_if_fail (SHAPES_IS_SQUARE (self));
+
+  SquarePrivate *priv = square_get_instance_private (SHAPES_SQUARE (self));
+  const gchar *reset_color_code = get_reset_color_code ();
+  g_autofree const gchar *color_escape_code = NULL;
+
+  g_object_get (self,
+                PROP_RENDERABLE_COLOR_OUTPUT_CODE, &color_escape_code,
+                NULL);
+
+  g_assert (color_escape_code != NULL);
+
+  Point *top_left = SHAPES_POINT (priv->top_left);
+  guint top_left_x = 0;
+  guint top_left_y = 0;
+  Point *bottom_right = SHAPES_POINT (priv->bottom_right);
+  guint bottom_right_x = 0;
+  guint bottom_right_y = 0;
+
+  g_object_get (top_left,
+                PROP_POINT_X_COORDINATE, &top_left_x,
+                PROP_POINT_Y_COORDINATE, &top_left_y,
+                NULL);
+  g_object_get (bottom_right,
+                PROP_POINT_X_COORDINATE, &bottom_right_x,
+                PROP_POINT_Y_COORDINATE, &bottom_right_y,
+                NULL);
+
+  guint x_difference = bottom_right_x - top_left_x;
+  guint y_difference = bottom_right_y - top_left_y;
+
+  for (gint i = 0; i < bottom_right_y - y_difference; ++i)
+    g_printf ("\n");
+
+  for (gint i = top_left_x; i < bottom_right_x; ++i)
+    {
+      for (gint j = 0; j < bottom_right_x - x_difference; ++j)
+        g_printf (" ");
+
+      for (gint j = top_left_y; j < bottom_right_y; ++j)
+        {
+          if ((i == top_left_x || i == bottom_right_x - 1) ||
+              (j == top_left_y || j == bottom_right_y - 1))
+            print_colored_output (" *", color_escape_code);
+          else
+            g_printf ("  ");
+        }
+
+      g_printf ("\n");
+    }
+
+  g_printf ("\n");
+  reset_color (reset_color_code);
 }
 
 static void
