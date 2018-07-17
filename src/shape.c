@@ -28,7 +28,7 @@ static void         shape_paint                     (Renderable           *self,
                                                      Color                 color,
                                                      GError              **error);
 
-static const gchar *shape_color_to_output_code      (Color color);
+static const gchar *shape_color_to_output_code      (Color                 color);
 
 static void         shape_get_property              (GObject              *object,
                                                      guint                 property_id,
